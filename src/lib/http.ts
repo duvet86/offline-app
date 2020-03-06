@@ -37,22 +37,17 @@ export const deleteAsync = async <T>(
 };
 
 const getCommonOptions = (headers: HeadersInit | undefined): RequestInit => ({
-  headers: getDefaultHeaders(headers),
-  credentials: "same-origin" // Required by old browsers to include cookies.
+  headers: getDefaultHeaders(headers)
+  // credentials: "include" // Required by old browsers to include cookies.
 });
 
 const getDefaultHeaders = (headers?: HeadersInit) => ({
   "Content-Type": "application/json",
-  Section: process.env.CURRENT_SECTION || "",
+  Section: process.env.REACT_APP_CURRENT_SECTION || "",
   ...headers
 });
 
 const handleErrors = async (response: Response) => {
-  if (response.status === 401) {
-    window.location.replace(Master_MapPath("/Global/Login"));
-    return;
-  }
-
   if (!response.ok) {
     const error = await response.text();
     throw new Error(
@@ -70,7 +65,6 @@ const handleErrors = async (response: Response) => {
 
 function Master_MapPath(relativeUrl: string) {
   return (
-    `http://lmarang-au-de01/dev/${process.env.BASE_URL}/${process.env.CURRENT_SECTION}/` +
-    relativeUrl
+    `http://lmarang-au-de01/${process.env.REACT_APP_BASE_URL}` + relativeUrl
   );
 }
