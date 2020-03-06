@@ -1,25 +1,27 @@
 import React, { FC } from "react";
-import { RouteComponentProps } from "react-router";
-import { Redirect, Route } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  RouteProps
+} from "react-router-dom";
 
-import { IRouteProps } from "./types";
+import { hasSessionCookie } from "../lib/authApi";
 
-const AnonymousRoute: FC<IRouteProps> = ({ component, ...props }) => {
-  // const boundRender = ({ location }: RouteComponentProps) =>
-  //   getTokenFromSession() == null ? (
-  //     React.createElement(component)
-  //   ) : (
-  //     <Redirect
-  //       to={{
-  //         pathname: "/",
-  //         state: { from: location }
-  //       }}
-  //     />
-  //   );
+const AnonymousRoute: FC<RouteProps> = ({ children, ...props }) => {
+  const boundRender = ({ location }: RouteComponentProps) =>
+    !hasSessionCookie() ? (
+      children
+    ) : (
+      <Redirect
+        to={{
+          pathname: "/",
+          state: { from: location }
+        }}
+      />
+    );
 
-  // return <Route exact {...props} render={boundRender} />;
-
-  return <Route exact {...props} />;
+  return <Route exact {...props} render={boundRender} />;
 };
 
 export default AnonymousRoute;
