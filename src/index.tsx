@@ -8,10 +8,13 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import configureTheme from "./configureTheme";
+import configureTheme from "./lib/configureTheme";
 
-import LoadAsync from "./LoadAsync";
+import LoadAsync from "./loading/LoadAsync";
 import Login from "./Login";
+
+import AnonymousRoute from "./routes/AnonymousRoute";
+import AuthenticatedRoute from "./routes/AuthenticatedRoute";
 
 import * as serviceWorker from "./serviceWorker";
 
@@ -23,9 +26,12 @@ render(
       <CssBaseline />
       <LoadAsync>
         <Switch>
-          <Login />
-          {/* <AnonymousRoute path="/login" component={LoginContainerAsync} />
-          <AuthenticatedRoute path="/" component={AppContainerAsync} /> */}
+          <AnonymousRoute path="/login">
+            <Login />
+          </AnonymousRoute>
+          <AuthenticatedRoute path="/">
+            <div>Luca</div>
+          </AuthenticatedRoute>
         </Switch>
       </LoadAsync>
     </MuiThemeProvider>

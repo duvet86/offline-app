@@ -1,25 +1,27 @@
 import React, { FC } from "react";
-import { RouteComponentProps } from "react-router";
-import { Redirect, Route } from "react-router";
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  RouteProps
+} from "react-router-dom";
 
-import { IRouteProps } from "./types";
+import { hasSessionCookie } from "../lib/authApi";
 
-const AuthenticatedRoute: FC<IRouteProps> = ({ component, ...props }) => {
-  // const boundRender = ({ location }: RouteComponentProps) =>
-  //   getTokenFromSession() != null ? (
-  //     React.createElement(component)
-  //   ) : (
-  //     <Redirect
-  //       to={{
-  //         pathname: "/login",
-  //         state: { from: location }
-  //       }}
-  //     />
-  //   );
+const AuthenticatedRoute: FC<RouteProps> = ({ children, ...props }) => {
+  const boundRender = ({ location }: RouteComponentProps) =>
+    hasSessionCookie() ? (
+      children
+    ) : (
+      <Redirect
+        to={{
+          pathname: "/login",
+          state: { from: location }
+        }}
+      />
+    );
 
-  // return <Route exact {...props} render={boundRender} />;
-
-  return <Route exact {...props} />;
+  return <Route exact {...props} render={boundRender} />;
 };
 
 export default AuthenticatedRoute;
