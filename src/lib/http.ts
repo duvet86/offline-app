@@ -64,7 +64,5 @@ const handleErrors = async (response: Response) => {
 };
 
 function Master_MapPath(relativeUrl: string) {
-  return (
-    `http://lmarang-au-de01/${process.env.REACT_APP_BASE_URL}` + relativeUrl
-  );
+  return process.env.REACT_APP_BASE_URL + relativeUrl;
 }
