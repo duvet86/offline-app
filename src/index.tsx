@@ -11,7 +11,8 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import configureTheme from "./lib/configureTheme";
 
 import LoadAsync from "./loading/LoadAsync";
-import Login from "./Login";
+//import Login from "./Login";
+import DataEntryForm from "./DataEntryForm";
 
 import AnonymousRoute from "./routes/AnonymousRoute";
 import AuthenticatedRoute from "./routes/AuthenticatedRoute";
@@ -27,7 +28,7 @@ render(
       <LoadAsync>
         <Switch>
           <AnonymousRoute path="/login">
-            <Login />
+            <DataEntryForm />
           </AnonymousRoute>
           <AuthenticatedRoute path="/">
             <div>Luca</div>
