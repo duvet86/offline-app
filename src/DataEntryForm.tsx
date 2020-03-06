@@ -1,25 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
-import MaterialTable, { Column } from "material-table";
+import { makeStyles } from "@material-ui/core/styles";
+
 import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
-interface Row {
-  loader: string;
-  loaderOperator: string;
-  hauler: string;
-  haulerOperator: string;
-  source: string;
-  material: string;
-  destination: string;
+const useStyles = makeStyles({
+  container: {
+    padding: 20
+  },
+  logout: {
+    marginBottom: 15
+  },
+  table: {
+    minWidth: 650
+  }
+});
+
+function createData(
+  name: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number
+) {
+  return { name, calories, fat, carbs, protein };
 }
 
-interface TableState {
-  columns: Array<Column<Row>>;
-  data: Row[];
-}
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9)
+];
 
-export default function MaterialTableDemo() {
+export default function SimpleTable() {
+  const classes = useStyles();
+
   const history = useHistory();
 
   const handleLogout = () => {
@@ -27,76 +52,43 @@ export default function MaterialTableDemo() {
     history.push("/login");
   };
 
-  const [state, setState] = useState<TableState>({
-    columns: [
-      { title: "Loader", field: "loader" },
-      { title: "LoaderOperator", field: "LoaderOperator" },
-      { title: "Hauler", field: "Hauler" },
-      { title: "HaulerOperator", field: "HaulerOperator" },
-      { title: "Source", field: "source" },
-      { title: "Material", field: "material" },
-      { title: "Desintation", field: "destination" }
-    ],
-    data: [
-      {
-        loader: "EX704",
-        loaderOperator: "Aleta Mooe",
-        hauler: "TK401",
-        haulerOperator: "Ahmad Luca",
-        source: "B-HG1B",
-        material: "H01",
-        destination: "CHC-LIMESTONE"
-      }
-    ]
-  });
-
   return (
-    <>
-      <Button variant="contained" color="primary" onClick={handleLogout}>
+    <div className={classes.container}>
+      <Button
+        className={classes.logout}
+        variant="contained"
+        color="primary"
+        onClick={handleLogout}
+      >
         Logout
       </Button>
-      <MaterialTable
-        title="Editable Example"
-        columns={state.columns}
-        data={state.data}
-        editable={{
-          onRowAdd: newData =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data.push(newData);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-                if (oldData) {
-                  setState(prevState => {
-                    const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
-                    return { ...prevState, data };
-                  });
-                }
-              }, 600);
-            }),
-          onRowDelete: oldData =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            })
-        }}
-      />
-    </>
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Dessert (100g serving)</TableCell>
+              <TableCell align="right">Calories</TableCell>
+              <TableCell align="right">Fat&nbsp;(g)</TableCell>
+              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map(row => (
+              <TableRow key={row.name}>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="right">{row.calories}</TableCell>
+                <TableCell align="right">{row.fat}</TableCell>
+                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="right">{row.protein}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
