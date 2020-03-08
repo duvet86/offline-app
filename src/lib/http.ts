@@ -37,13 +37,14 @@ export const deleteAsync = async <T>(
 };
 
 const getCommonOptions = (headers: HeadersInit | undefined): RequestInit => ({
-  headers: getDefaultHeaders(headers)
-  // credentials: "include" // Required by old browsers to include cookies.
+  headers: getDefaultHeaders(headers),
+  credentials: "include"
 });
 
 const getDefaultHeaders = (headers?: HeadersInit) => ({
   "Content-Type": "application/json",
   Section: process.env.REACT_APP_CURRENT_SECTION || "",
+  SiteMapPath: process.env.REACT_APP_CURRENT_SECTION || "",
   ...headers
 });
 

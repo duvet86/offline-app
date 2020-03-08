@@ -21,7 +21,7 @@ const AnonymousRoute: FC<RouteProps> = ({ children, ...props }) => {
       />
     );
 
-  return <Route exact {...props} render={boundRender} />;
+  return <Route {...props} render={boundRender} />;
 };
 
 export default AnonymousRoute;

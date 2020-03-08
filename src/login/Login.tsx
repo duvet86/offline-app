@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-import { postAsync } from "./lib/http";
+import { postAsync } from "../lib/http";
 
 interface LoginResultDtc {
   Success: boolean;
@@ -38,7 +38,9 @@ export default function DisableElevation() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     postAsync<LoginResultDtc>("/api/auth/sessions", {
       username,
       password
@@ -61,7 +63,12 @@ export default function DisableElevation() {
   return (
     <div className={classes.container}>
       <div>
-        <form className={classes.form} noValidate autoComplete="off">
+        <form
+          onSubmit={handleSubmit}
+          className={classes.form}
+          noValidate
+          autoComplete="off"
+        >
           <div>
             <TextField
               label="Username"
@@ -82,10 +89,10 @@ export default function DisableElevation() {
           <div>{error}</div>
 
           <Button
+            type="submit"
             className={classes.loginButton}
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
           >
             Login
           </Button>
