@@ -33,14 +33,30 @@ const OperationSelect: FC<Props> = ({ initOperation, onOperationChange }) => {
   const [operation, setOperation] = useState(initOperation || "");
 
   useEffect(() => {
-    getAsync<OperationDtc[]>("/api/platform/operations").then(
-      operationListParam => {
+    getAsync<OperationDtc[]>("/api/platform/operations")
+      .then(operationListParam => {
         setOperationList(operationListParam);
         const newOp = operationListParam[0].Operation;
         setOperation(newOp);
         onOperationChange(newOp);
-      }
-    );
+
+        localStorage.setItem(
+          "operationList",
+          JSON.stringify(operationListParam)
+        );
+      })
+      .catch(() => {
+        const operationsString = localStorage.getItem("operationList");
+        if (operationsString == null) {
+          throw new Error();
+        }
+        const operationListParam = JSON.parse(operationsString);
+
+        setOperationList(operationListParam);
+        const newOp = operationListParam[0].Operation;
+        setOperation(newOp);
+        onOperationChange(newOp);
+      });
   }, [onOperationChange]);
 
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {

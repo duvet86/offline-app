@@ -81,20 +81,24 @@ const DataEntryForm: FC<Props> = ({ db }) => {
     }));
   };
 
-  const handkeSaveForm = () => {
+  const handleSaveForm = () => {
     setIsLoading(true);
     db.transaction("rw", db.formData, async () => {
       const formDataWithOperation = {
         ...formData,
         operation
       };
+
       await db.table("formData").add(formDataWithOperation);
-      setIsLoading(false);
-      history.push("/");
-    }).catch(e => {
-      // log any errors
-      console.log(e.stack || e);
-    });
+    })
+      .then(() => {
+        setIsLoading(false);
+        history.push("/");
+      })
+      .catch(e => {
+        // log any errors
+        console.log(e.stack || e);
+      });
   };
 
   return (
@@ -132,9 +136,9 @@ const DataEntryForm: FC<Props> = ({ db }) => {
                     onChange={handleChange("loader")}
                     required
                   >
-                    <MenuItem value={10}>R173</MenuItem>
-                    <MenuItem value={20}>R174</MenuItem>
-                    <MenuItem value={30}>R176</MenuItem>
+                    <MenuItem value="R174">R173</MenuItem>
+                    <MenuItem value="R174">R174</MenuItem>
+                    <MenuItem value="R176">R176</MenuItem>
                   </Select>
                   <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -153,9 +157,9 @@ const DataEntryForm: FC<Props> = ({ db }) => {
                     onChange={handleChange("operator")}
                     required
                   >
-                    <MenuItem value={10}>004095</MenuItem>
-                    <MenuItem value={20}>005000</MenuItem>
-                    <MenuItem value={30}>062346</MenuItem>
+                    <MenuItem value="004095">004095</MenuItem>
+                    <MenuItem value="005000">005000</MenuItem>
+                    <MenuItem value="062346">062346</MenuItem>
                   </Select>
                   <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -174,9 +178,9 @@ const DataEntryForm: FC<Props> = ({ db }) => {
                     onChange={handleChange("source")}
                     required
                   >
-                    <MenuItem value={10}>030-2399</MenuItem>
-                    <MenuItem value={20}>030-2399-01</MenuItem>
-                    <MenuItem value={30}>040-2301</MenuItem>
+                    <MenuItem value="030-2399">030-2399</MenuItem>
+                    <MenuItem value="030-2399-01">030-2399-01</MenuItem>
+                    <MenuItem value="040-2301">040-2301</MenuItem>
                   </Select>
                   <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -195,9 +199,9 @@ const DataEntryForm: FC<Props> = ({ db }) => {
                     onChange={handleChange("material")}
                     required
                   >
-                    <MenuItem value={10}>ASHK</MenuItem>
-                    <MenuItem value={20}>ASHO</MenuItem>
-                    <MenuItem value={30}>CSHD</MenuItem>
+                    <MenuItem value="ASHK">ASHK</MenuItem>
+                    <MenuItem value="ASHO">ASHO</MenuItem>
+                    <MenuItem value="CSHD">CSHD</MenuItem>
                   </Select>
                   <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -216,9 +220,9 @@ const DataEntryForm: FC<Props> = ({ db }) => {
                     onChange={handleChange("destination")}
                     required
                   >
-                    <MenuItem value={10}>030-2399</MenuItem>
-                    <MenuItem value={20}>030-2399-01</MenuItem>
-                    <MenuItem value={30}>040-2301</MenuItem>
+                    <MenuItem value="030-2399">030-2399</MenuItem>
+                    <MenuItem value="030-2399-01">030-2399-01</MenuItem>
+                    <MenuItem value="040-2301">040-2301</MenuItem>
                   </Select>
                   <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -242,7 +246,7 @@ const DataEntryForm: FC<Props> = ({ db }) => {
             color="primary"
             variant="contained"
             startIcon={<SaveIcon />}
-            onClick={handkeSaveForm}
+            onClick={handleSaveForm}
           >
             Save
           </Button>

@@ -1,29 +1,38 @@
 import React, { FC } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
-
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
-  laodingContainer: {
-    margin: "16px 28px 16px 28px"
+  root: {
+    alignItems: "center",
+    display: "flex",
+    height: "100%",
+    justifyContent: "center",
+    width: "100%"
   },
-  label: {
-    textAlign: "center"
+  laodingContainer: {
+    width: "100%",
+    margin: "16px 28px 16px 28px"
   }
 });
+
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#eee"
+  },
+  barColorPrimary: {
+    backgroundColor: "#ccc"
+  }
+})(LinearProgress);
 
 const BaseLoading: FC = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.laodingContainer}>
-      <Typography className={classes.label} variant="h6">
-        Loading...
-      </Typography>
-      <div>
-        <LinearProgress variant="query" />
+    <div className={classes.root}>
+      <div className={classes.laodingContainer}>
+        <ColorLinearProgress />
       </div>
     </div>
   );

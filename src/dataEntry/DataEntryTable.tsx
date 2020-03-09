@@ -54,24 +54,29 @@ const DataEntryTable: FC<Props> = ({ db }) => {
     (operation: string) => {
       setOperation(operation);
 
-      db.table("formData")
-        .where("operation")
-        .equals(operation)
-        .toArray()
-        .then(res => {
-          const asd = res.map(
-            ({ loader, operator, source, material, destination, loads }) => ({
-              Loader: loader,
-              LoaderOperatorId: operator,
-              Origin: source,
-              Material: material,
-              Destination: destination,
-              Loads: loads
-            })
-          );
+      db.transaction("r", db.formData, async () => {
+        db.table("formData")
+          .where("operation")
+          .equals(operation)
+          .toArray()
+          .then(res => {
+            const asd = res.map(
+              ({ loader, operator, source, material, destination, loads }) => ({
+                Loader: loader,
+                LoaderOperatorId: operator,
+                Origin: source,
+                Material: material,
+                Destination: destination,
+                Loads: loads
+              })
+            );
 
-          setRecords(asd as DataEntryRecord[]);
-        });
+            setRecords(asd as DataEntryRecord[]);
+          });
+      }).catch(e => {
+        // log any errors
+        console.log(e.stack || e);
+      });
 
       // const today = new Date();
       // const year = getYear(today);

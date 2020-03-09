@@ -1,9 +1,8 @@
 import React, { FC, Suspense } from "react";
-
-import BaseLoading from "./BaseLoading";
+import LegacyLoading from "./LegacyLoading";
 
 const LoadAsync: FC = ({ children }) => {
-  return <Suspense fallback={<BaseLoading />}>{children}</Suspense>;
+  return <Suspense fallback={<LegacyLoading />}>{children}</Suspense>;
 };
 
 export default LoadAsync;
