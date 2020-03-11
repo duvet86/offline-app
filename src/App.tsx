@@ -15,6 +15,7 @@ import DataEntryDatabase from "./lib/DataEntryDatabase";
 
 import LogoutButton from "./login/LogoutButton";
 import DataEntryTabs from "./dataEntry/DataEntryTabs";
+import DataEntryForm from "./dataEntry/DataEntryForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,6 +59,9 @@ export default function App() {
       <Grid container className={classes.bodyContainer}>
         <Route exact path="/">
           <DataEntryTabs db={db} />
+        </Route>
+        <Route exact path="/add-record/:operation">
+          <DataEntryForm db={db} />
         </Route>
       </Grid>
     </>

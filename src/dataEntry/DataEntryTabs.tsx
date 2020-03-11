@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     selectContainer: {
       marginBottom: theme.spacing(2)
+    },
+    paper: {
+      height: "100%"
     }
   })
 );
@@ -85,26 +88,26 @@ const DataEntryTabs: FC<Props> = ({ db }) => {
       </Grid>
       <Grid item xs={12}>
         <LoadingContainer isLoading={dataEntryTabs == null}>
-          <Paper>
-            <Tabs
-              value={value}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleChange}
-              aria-label="disabled tabs example"
-            >
-              {dataEntryTabs &&
-                dataEntryTabs.map(({ DataEntryTab, Label }) => (
+          {dataEntryTabs && (
+            <Paper className={classes.paper}>
+              <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+              >
+                {dataEntryTabs.map(({ DataEntryTab, Label }) => (
                   <Tab key={DataEntryTab} label={Label} />
                 ))}
-            </Tabs>
-            {dataEntryTabs &&
-              dataEntryTabs.map(({ DataEntryTab }, i) => (
+              </Tabs>
+              {dataEntryTabs.map(({ DataEntryTab }, i) => (
                 <TabPanel key={DataEntryTab} value={value} index={i}>
                   <DataEntryTable db={db} operation={operation} />
                 </TabPanel>
               ))}
-          </Paper>
+            </Paper>
+          )}
         </LoadingContainer>
       </Grid>
     </>
