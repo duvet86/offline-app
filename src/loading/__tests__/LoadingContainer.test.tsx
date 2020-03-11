@@ -8,41 +8,41 @@ import LoadingContainer from "../LoadingContainer";
 jest.useFakeTimers();
 
 describe("<LoadingContainer />", () => {
-  // it("Component with error shows error message.", () => {
-  //   const error = new Error("ERROR");
+  it("Component with error shows error message.", () => {
+    const error = new Error("ERROR");
 
-  //   try {
-  //     act(() => {
-  //       create(
-  //         <LoadingContainer isLoading={true} error={error}>
-  //           <div>Child</div>
-  //         </LoadingContainer>
-  //       );
-  //     });
-  //   } catch (e) {
-  //     expect(e.message).toBe("ERROR");
-  //   }
-  // });
+    try {
+      act(() => {
+        create(
+          <LoadingContainer isLoading={true} error={error}>
+            <div>Child</div>
+          </LoadingContainer>
+        );
+      });
+    } catch (e) {
+      expect(e.message).toBe("ERROR");
+    }
+  });
 
-  // it("Component not loading show children.", () => {
-  //   let component: ReactTestRenderer;
-  //   act(() => {
-  //     component = create(
-  //       <LoadingContainer isLoading={false}>
-  //         <div>Child</div>
-  //       </LoadingContainer>
-  //     );
-  //   });
+  it("Component not loading show children.", () => {
+    let component: ReactTestRenderer;
+    act(() => {
+      component = create(
+        <LoadingContainer isLoading={false}>
+          <div>Child</div>
+        </LoadingContainer>
+      );
+    });
 
-  //   const instance = component!.root;
+    const instance = component!.root;
 
-  //   expect(instance.children.length).toEqual(1);
+    expect(instance.children.length).toEqual(1);
 
-  //   const childComponent = instance.find(el => {
-  //     return el.children && el.children[0] === "Child";
-  //   });
-  //   expect(childComponent).toBeDefined();
-  // });
+    const childComponent = instance.find(el => {
+      return el.children && el.children[0] === "Child";
+    });
+    expect(childComponent).toBeDefined();
+  });
 
   it("Component not loading and outside delay shows children.", () => {
     let component: ReactTestRenderer;

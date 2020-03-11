@@ -14,8 +14,7 @@ import Button from "@material-ui/core/Button";
 import DataEntryDatabase from "./lib/DataEntryDatabase";
 
 import LogoutButton from "./login/LogoutButton";
-import DataEntryTable from "./dataEntry/DataEntryTable";
-import DataEntryForm from "./dataEntry/DataEntryForm";
+import DataEntryTabs from "./dataEntry/DataEntryTabs";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,10 +57,7 @@ export default function App() {
       </AppBar>
       <Grid container className={classes.bodyContainer}>
         <Route exact path="/">
-          <DataEntryTable db={db} />
-        </Route>
-        <Route exact path="/add-record/:operation">
-          <DataEntryForm db={db} />
+          <DataEntryTabs db={db} />
         </Route>
       </Grid>
     </>

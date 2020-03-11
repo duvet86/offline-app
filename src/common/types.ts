@@ -34,3 +34,25 @@ export interface DataEntryRecord {
   ModifiedBy?: string;
   Warning?: string;
 }
+
+export interface DataEntryTab {
+  Operation: string;
+  DataEntryTab: string;
+  Label: string;
+  CustomLabel: string;
+  CalcMethod: string;
+  Active: boolean;
+  TabOrder: string;
+  UseLoadFactor: boolean;
+  ProductionCycleType: string;
+  ProductionType: string;
+  CycleType: string;
+  HideAdjustments: boolean;
+  HideVolume: boolean;
+  HideWeight: boolean;
+  HideLoader: boolean;
+  HideHauler: boolean;
+  HidePayloadWeight: boolean;
+  IntervalType: string;
+  SourceGradeType: string;
+}

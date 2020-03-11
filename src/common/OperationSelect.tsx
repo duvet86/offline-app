@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, ChangeEvent } from "react";
+import React, { FC, useState, useEffect, useRef, ChangeEvent } from "react";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
@@ -27,10 +27,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const OperationSelect: FC<Props> = ({ initOperation, onOperationChange }) => {
   const classes = useStyles();
 
-  const [operationList, setOperationList] = useState<OperationDtc[] | null>(
-    null
-  );
+  const inputLabel = useRef<HTMLLabelElement>(null);
+
+  const [operationList, setOperationList] = useState<OperationDtc[]>([]);
   const [operation, setOperation] = useState(initOperation || "");
+  const [labelWidth, setLabelWidth] = useState(0);
+
+  useEffect(() => {
+    setLabelWidth(inputLabel.current!.offsetWidth);
+  }, []);
 
   useEffect(() => {
     getAsync<OperationDtc[]>("/api/platform/operations")
@@ -65,16 +70,18 @@ const OperationSelect: FC<Props> = ({ initOperation, onOperationChange }) => {
     onOperationChange(newOp);
   };
 
-  if (operationList == null) {
-    return null;
-  }
-
   return (
-    <FormControl className={classes.formControl}>
-      <InputLabel id="operation-select">Select an Operation</InputLabel>
+    <FormControl
+      variant="outlined"
+      className={classes.formControl}
+      disabled={operationList.length <= 1}
+    >
+      <InputLabel ref={inputLabel} id="operation-select">
+        Operation
+      </InputLabel>
       <Select
-        autoWidth
         id="operation-select"
+        labelWidth={labelWidth}
         value={operation}
         onChange={handleChange}
       >
