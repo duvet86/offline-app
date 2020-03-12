@@ -103,7 +103,11 @@ const DataEntryTabs: FC<Props> = ({ db }) => {
               </Tabs>
               {dataEntryTabs.map(({ DataEntryTab }, i) => (
                 <TabPanel key={DataEntryTab} value={value} index={i}>
-                  <DataEntryTable db={db} operation={operation} />
+                  <DataEntryTable
+                    db={db}
+                    operation={operation}
+                    tabKey={DataEntryTab}
+                  />
                 </TabPanel>
               ))}
             </Paper>

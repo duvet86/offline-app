@@ -20,8 +20,9 @@ import { DataEntryRecord } from "../common/types";
 import DataEntryDatabase from "../lib/DataEntryDatabase";
 
 interface Props {
-  operation: string;
   db: DataEntryDatabase;
+  operation: string;
+  tabKey: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const DataEntryTabs: FC<Props> = ({ db, operation }) => {
+const DataEntryTabs: FC<Props> = ({ db, operation, tabKey }) => {
   const classes = useStyles();
 
   const [records, setRecords] = useState<DataEntryRecord[]>([]);
@@ -55,7 +56,7 @@ const DataEntryTabs: FC<Props> = ({ db, operation }) => {
     }_D`;
 
     getAsync<DataEntryRecord[]>(
-      `/api/loadandhauldataentry/${operation}/shift-records/BOG?intervalString=${intervalString}`
+      `/api/loadandhauldataentry/${operation}/shift-records/${tabKey}/${intervalString}`
     )
       .then(recordsParam => {
         setRecords(recordsParam);
@@ -67,7 +68,7 @@ const DataEntryTabs: FC<Props> = ({ db, operation }) => {
             .equals(operation)
             .toArray()
             .then(res => {
-              const asd = res.map(
+              const toRecordDtcs = res.map<DataEntryRecord>(
                 ({
                   loader,
                   operator,
@@ -85,14 +86,14 @@ const DataEntryTabs: FC<Props> = ({ db, operation }) => {
                 })
               );
 
-              setRecords(asd as DataEntryRecord[]);
+              setRecords(toRecordDtcs);
             });
         }).catch(e => {
           // log any errors
           console.log(e.stack || e);
         });
       });
-  }, [db, operation]);
+  }, [db, operation, tabKey]);
 
   return (
     <Grid className={classes.container} item xs={12}>
